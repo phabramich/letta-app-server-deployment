@@ -20,17 +20,17 @@ ENV LETTA_PACKAGE_MANAGER="bun"
 # instead of staying pinned to the version baked into the first build.
 ARG LETTA_CODE_VERSION=""
 COPY letta-code-version.txt /tmp/letta-code-version.txt
-
 RUN set -eux; \
     apt-get update; \
     apt-get install -y git python3 curl wget jq nodejs make g++; \
+    mkdir -p "$BUN_INSTALL_GLOBAL_DIR"; \
     version="${LETTA_CODE_VERSION:-$(cat /tmp/letta-code-version.txt)}"; \
-    mkdir -p /opt/letta-code; \
-    bun install -g "@letta-ai/letta-code@${version}" "npm@10"; \
+    echo "Installing version: $version"; \
+    bun install -g "@letta-ai/letta-code@${version}"; \
+    bun install -g "npm@10"; \
     apt-get purge -y make g++; \
     apt-get autoremove -y; \
     rm -rf /var/lib/apt/lists/*
-
 ENV ENV_NAME="cloud"
 ENV LETTA_RESTORE_ENABLED_CHANNELS="1"
 
