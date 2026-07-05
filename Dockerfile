@@ -25,6 +25,7 @@ RUN set -eux; \
     apt-get update; \
     apt-get install -y git python3 curl wget jq nodejs make g++; \
     version="${LETTA_CODE_VERSION:-$(cat /tmp/letta-code-version.txt)}"; \
+    mkdir -p /opt/letta-code; \
     bun install -g "@letta-ai/letta-code@${version}" "npm@10"; \
     apt-get purge -y make g++; \
     apt-get autoremove -y; \
